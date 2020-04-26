@@ -100,10 +100,15 @@ void DrawPoints(std::vector<FancyPoint>& points)
     {
         for (auto const& point2 : points)
         {
-            if ((&point1 != &point2) && (glm::distance(point1.mPos, point2.mPos) <= cMinDistance))
+            if ((&point1 != &point2))
             {
-                ImDrawList* draw_list = ImGui::GetWindowDrawList();
-                draw_list->AddLine(ToImgui(point1.mPos), ToImgui(point2.mPos), ImColor(255, 255, 255));
+                auto distance = glm::distance(point1.mPos, point2.mPos);
+
+                if (distance <=  cMinDistance)
+                {
+                    ImDrawList* draw_list = ImGui::GetWindowDrawList();
+                    draw_list->AddLine(ToImgui(point1.mPos), ToImgui(point2.mPos), ImColor(1.f, 1.f, 1.f, 1 - (distance / cMinDistance)));
+                }
             }
         }
     }
@@ -129,7 +134,7 @@ void UpdatePoints(std::vector<FancyPoint>& points)
         {
             auto direction = glm::normalize(point.mPos - mouse);
         
-            point.mPos = mouse + (direction * 105.f);
+            point.mPos = mouse + (direction * 100.f);
         }
     }
 }
