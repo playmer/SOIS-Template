@@ -13,7 +13,6 @@
 #include "imgui/imgui_stdlib.h"
 #include "imgui/imgui_internal.h"
 
-//const Rand = (max = 1, min = 0) => Math.random() * max + min;
 
 // Returns float between 0 and 1, inclusive;
 float Rand()
@@ -161,33 +160,42 @@ int main(int, char**)
     config.aWindowName = "SOIS Template";
 
     SOIS::ApplicationContext context{config};
-    SOIS::ImGuiSample sample;
+    //SOIS::ImGuiSample sample;
 
     std::vector<FancyPoint> points;
 
     while (context.Update())
     {
-        //ImGui::Begin("Canvas", nullptr, ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoBringToFrontOnFocus);
-        //{
-        //    static bool firstRun = true;
-        //
-        //    if (firstRun)
-        //    {
-        //        points = InitPoints();
-        //        firstRun = false;
-        //    }
-        //
-        //    ImGuiIO& io = ImGui::GetIO();
-        //    ImGui::SetWindowSize(ImVec2(io.DisplaySize.x, io.DisplaySize.y));
-        //    ImGui::SetWindowPos(ImVec2(0, 0));
-        //
-        //    DrawPoints(points);
-        //}
-        //ImGui::End();
-        //
-        //UpdatePoints(points);
+        ImGui::Begin(
+            "Canvas", 
+            nullptr, 
+            ImGuiWindowFlags_NoBackground | 
+            ImGuiWindowFlags_NoBringToFrontOnFocus | 
+            ImGuiWindowFlags_NoCollapse |  
+            ImGuiWindowFlags_NoDecoration | 
+            ImGuiWindowFlags_NoDocking |
+            ImGuiWindowFlags_NoInputs | 
+            ImGuiWindowFlags_NoMove);
+        {
+            static bool firstRun = true;
 
-        sample.Update();
+            if (firstRun)
+            {
+                points = InitPoints();
+                firstRun = false;
+            }
+
+            ImGuiIO& io = ImGui::GetIO();
+            ImGui::SetWindowSize(ImVec2(io.DisplaySize.x, io.DisplaySize.y));
+            ImGui::SetWindowPos(ImVec2(0, 0));
+
+            DrawPoints(points);
+        }
+        ImGui::End();
+
+        UpdatePoints(points);
+
+        //sample.Update();
     }
 
     return 0;
